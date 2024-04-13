@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+// const { ipcRenderer } = window.require('electron').remote;
 
 const Container = styled.div`
   width: 100%;
@@ -44,18 +45,43 @@ const Button = styled.button`
 `;
 
 const MACAddressInput = () => {
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission here
+  const [macAddress, setMacAddress] = useState('');
+
+  // const handleStartTracking = () => {
+  //   // ipcRenderer.send('start-electron-app', macAddress);
+  //   console.log("MAC Address Fetched successfully");
+  // };
+
+  const handleStartTracking = async () => {
+    try {
+      const response = await fetch('http://localhost:8000/api/check-mac', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ macAddress }),
+      });
+      console.log(response);
+      const data = await response.json();
+      if (data.found) {
+        alert('MAC Address found in the database');
+      } else {
+        alert('MAC Address not found in the database');
+      }
+    } catch (error) {
+      alert('Error:', error);
+    }
+  };
+
+  const handleInputChange = (event) => {
+    setMacAddress(event.target.value);
   };
 
   return (
     <Container>
       <FormContainer>
-        <form onSubmit={handleSubmit}>
-          <Input type="text" placeholder="Enter MAC address" />
-          <Button type="submit">Submit</Button>
-        </form>
+          <Input type="text" value={macAddress} onChange={handleInputChange} placeholder="Enter MAC address" />
+          <Button onClick={handleStartTracking}> Start Time Tracking </Button>
       </FormContainer>
     </Container>
   );
