@@ -9,7 +9,6 @@
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
     "axios": "^1.6.8",
-    "electron": "^29.3.0",
     "fs": "^0.0.1-security",
     "gsap": "^3.9.1",
     "normalize.css": "^8.0.1",
@@ -25,10 +24,12 @@
     "web-vitals": "^3.3.2"
   },
   "devDependencies": {
+    "electron": "^29.3.0",
     "react-scripts": "^5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
+    "electron": "electron .",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
